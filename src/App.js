@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import useFetchJobs from './useFetchJobs';
+import { Container } from 'react-bootstrap';
+import Job from './Job';
+import JobPagination from './JobPagination';
+import SearchForm from './SearchForm';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [params, setParams] = useState({});
+    const [page, setPage] = useState(1);
+
+    const { jobs, loading, error, hasNextPage } = useFetchJobs(params, page);
+
+    function handleParamChange(e) {
+        const param = e.target.name;
+        const value = e.target.value;
+        setPage(1);
+        setParams((prevParams) => {
+            return { ...prevParams, [param]: value };
+        });
+    }
+
+    return (
+        <Container className='my-4'>
+            <h1 className='mb-4'>GitHub Jobs</h1>
+            <SearchForm params={params} onParamChange={handleParamChange} />
+            <JobPagination
+                page={page}
+                setPage={setPage}
+                hasNextPage={hasNextPage}
+            />
+            {loading && <h1>Loading...</h1>}
+            {error && <h1>Error. Try refreshing.</h1>}
+            {jobs.map((job) => {
+                return <Job key={job.id} job={job}></Job>;
+            })}
+            <JobPagination
+                page={page}
+                setPage={setPage}
+                hasNextPage={hasNextPage}
+            />
+        </Container>
+    );
 }
 
 export default App;
