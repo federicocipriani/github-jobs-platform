@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useFetchJobs from './useFetchJobs';
-import { Container } from 'react-bootstrap';
+import { Container, Alert } from 'react-bootstrap';
 import Job from './Job';
 import JobPagination from './JobPagination';
 import SearchForm from './SearchForm';
@@ -9,7 +9,10 @@ function App() {
     const [params, setParams] = useState({});
     const [page, setPage] = useState(1);
 
-    const { jobs, loading, error, hasNextPage } = useFetchJobs(params, page);
+    const { jobs, loading, show, error, hasNextPage } = useFetchJobs(
+        params,
+        page
+    );
 
     function handleParamChange(e) {
         const param = e.target.name;
@@ -29,8 +32,21 @@ function App() {
                 setPage={setPage}
                 hasNextPage={hasNextPage}
             />
-            {loading && <h1>Loading...</h1>}
-            {error && <h1>Error. Try refreshing.</h1>}
+            {loading && <Alert variant='dark'>Loading...</Alert>}
+            {error && <Alert variant='danger'>Error. Try refreshing.</Alert>}
+            {show && (
+                <Alert
+                    show={show}
+                    onClose={() => !show}
+                    variant='success'
+                    dismissible>
+                    <Alert.Heading>Some jobs for you!</Alert.Heading>
+                    <p>
+                        You can also refine the search with the search box
+                        above.
+                    </p>
+                </Alert>
+            )}
             {jobs.map((job) => {
                 return <Job key={job.id} job={job}></Job>;
             })}

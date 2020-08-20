@@ -1,4 +1,3 @@
-import React from 'react';
 import { useReducer, useEffect } from 'react';
 import axios from 'axios';
 
@@ -18,7 +17,12 @@ function reducer(state, action) {
         case ACTIONS.MAKE_REQUEST:
             return { loading: true, jobs: [] };
         case ACTIONS.GET_DATA:
-            return { ...state, loading: false, jobs: action.payload.jobs };
+            return {
+                ...state,
+                loading: false,
+                show: true,
+                jobs: action.payload.jobs,
+            };
         case ACTIONS.ERROR:
             return {
                 ...state,
@@ -37,7 +41,11 @@ function reducer(state, action) {
 }
 
 function useFetchJobs(params, page) {
-    const [state, dispatch] = useReducer(reducer, { jobs: [], loading: true });
+    const [state, dispatch] = useReducer(reducer, {
+        jobs: [],
+        loading: true,
+        show: false,
+    });
 
     useEffect(() => {
         const cancelToken1 = axios.CancelToken.source();
@@ -45,6 +53,7 @@ function useFetchJobs(params, page) {
 
         dispatch({ type: ACTIONS.MAKE_REQUEST });
 
+        // Retrieve all jobs from GitHub API
         axios
             .get(BASE_URL, {
                 cancelToken: cancelToken1.token,
@@ -61,6 +70,7 @@ function useFetchJobs(params, page) {
                 dispatch({ type: ACTIONS.ERROR, payload: { error: e } });
             });
 
+        // Check if there is an additional page
         axios
             .get(BASE_URL, {
                 cancelToken: cancelToken2.token,
