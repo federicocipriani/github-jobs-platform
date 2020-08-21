@@ -28,7 +28,7 @@ function SearchForm({ params, onParamChange }) {
                         onChange={onParamChange}
                         value={params.full_time}
                         name='full_time'
-                        label='Only Full Time'
+                        label='Full Time'
                         type='checkbox'
                         className='mb-2'
                     />

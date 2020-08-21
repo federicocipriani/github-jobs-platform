@@ -17,6 +17,7 @@ function Job({ job }) {
                             </span>
                         </Card.Title>
                         <Card.Subtitle className='text-muted mb-2'>
+                            Date published:{' '}
                             {new Date(job.created_at).toLocaleDateString()}
                         </Card.Subtitle>
                         <Badge variant='secondary' className='mr-2'>

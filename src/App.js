@@ -8,20 +8,24 @@ import SearchForm from './SearchForm';
 function App() {
     const [params, setParams] = useState({});
     const [page, setPage] = useState(1);
+    // const [show, setShow] = useState(true);
 
-    const { jobs, loading, show, error, hasNextPage } = useFetchJobs(
-        params,
-        page
-    );
+    const { jobs, loading, error, hasNextPage } = useFetchJobs(params, page);
 
     function handleParamChange(e) {
         const param = e.target.name;
         const value = e.target.value;
+        console.log(param);
+        console.log(typeof value);
         setPage(1);
         setParams((prevParams) => {
             return { ...prevParams, [param]: value };
         });
     }
+
+    // function turnOffAlert() {
+    //     setShow();
+    // }
 
     return (
         <Container className='my-4'>
@@ -34,10 +38,10 @@ function App() {
             />
             {loading && <Alert variant='dark'>Loading...</Alert>}
             {error && <Alert variant='danger'>Error. Try refreshing.</Alert>}
-            {show && (
+            {/* {show && (
                 <Alert
                     show={show}
-                    onClose={() => !show}
+                    onClose={() => setShow()}
                     variant='success'
                     dismissible>
                     <Alert.Heading>Some jobs for you!</Alert.Heading>
@@ -46,7 +50,7 @@ function App() {
                         above.
                     </p>
                 </Alert>
-            )}
+            )} */}
             {jobs.map((job) => {
                 return <Job key={job.id} job={job}></Job>;
             })}

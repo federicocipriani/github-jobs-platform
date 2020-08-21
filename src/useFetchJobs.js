@@ -20,7 +20,6 @@ function reducer(state, action) {
             return {
                 ...state,
                 loading: false,
-                show: true,
                 jobs: action.payload.jobs,
             };
         case ACTIONS.ERROR:
@@ -44,7 +43,6 @@ function useFetchJobs(params, page) {
     const [state, dispatch] = useReducer(reducer, {
         jobs: [],
         loading: true,
-        show: false,
     });
 
     useEffect(() => {
@@ -60,6 +58,7 @@ function useFetchJobs(params, page) {
                 params: { markdown: true, page: page, ...params },
             })
             .then((res) => {
+                console.log(res);
                 dispatch({
                     type: ACTIONS.GET_DATA,
                     payload: { jobs: res.data },
