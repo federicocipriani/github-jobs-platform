@@ -58,7 +58,19 @@ function useFetchJobs(params, page) {
                 params: { markdown: true, page: page, ...params },
             })
             .then((res) => {
-                console.log(res);
+                // console.log(res.data[0]);
+                var loc;
+                res.data.map((item) => {
+                    if (!loc.includes(item.location)) {
+                        loc.push(item.location);
+                    }
+                });
+                // var loc = res.data.map((item) => !loc.includes(item.location) && item.location;
+                // var loc_unique = [...new Set(loc)];
+                // console.log(loc);
+                // console.log(loc_unique);
+                // console.log(Object.keys(res.data[0]));
+                // console.log(res.data[0]);
                 dispatch({
                     type: ACTIONS.GET_DATA,
                     payload: { jobs: res.data },

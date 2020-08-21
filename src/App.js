@@ -16,16 +16,14 @@ function App() {
         const param = e.target.name;
         const value = e.target.value;
         console.log(param);
-        console.log(typeof value);
+        console.log(value);
         setPage(1);
         setParams((prevParams) => {
             return { ...prevParams, [param]: value };
         });
     }
 
-    // function turnOffAlert() {
-    //     setShow();
-    // }
+    // const handleShow = () => setShow(false)
 
     return (
         <Container className='my-4'>
@@ -51,6 +49,17 @@ function App() {
                     </p>
                 </Alert>
             )} */}
+            {!loading && (
+                <Alert variant='success'>
+                    <Alert.Heading>
+                        I found <strong>{jobs.length}</strong> jobs for you!
+                    </Alert.Heading>
+                    <p>
+                        Have a look! Or refine your search in the search form
+                        above.
+                    </p>
+                </Alert>
+            )}
             {jobs.map((job) => {
                 return <Job key={job.id} job={job}></Job>;
             })}
