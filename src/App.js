@@ -6,20 +6,23 @@ import JobPagination from './JobPagination';
 import SearchForm from './SearchForm';
 
 function App() {
-    const [params, setParams] = useState({});
+    const [filters, setFilters] = useState({});
     const [page, setPage] = useState(1);
     // const [show, setShow] = useState(true);
 
-    const { jobs, loading, error, hasNextPage } = useFetchJobs(params, page);
+    const { jobs, locations, loading, error, hasNextPage } = useFetchJobs(
+        filters,
+        page
+    );
 
     function handleParamChange(e) {
         const param = e.target.name;
         const value = e.target.value;
-        console.log(param);
-        console.log(value);
+        console.log('param = ' + param);
+        console.log('value = ' + value);
         setPage(1);
-        setParams((prevParams) => {
-            return { ...prevParams, [param]: value };
+        setFilters((prevFilters) => {
+            return { ...prevFilters, [param]: value };
         });
     }
 
@@ -28,7 +31,11 @@ function App() {
     return (
         <Container className='my-4'>
             <h1 className='mb-4'>GitHub Jobs</h1>
-            <SearchForm params={params} onParamChange={handleParamChange} />
+            <SearchForm
+                locations={locations}
+                params={filters}
+                onParamChange={handleParamChange}
+            />
             <JobPagination
                 page={page}
                 setPage={setPage}

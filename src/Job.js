@@ -3,6 +3,7 @@ import { Card, Badge, Button, Collapse } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown';
 
 function Job({ job }) {
+    // console.log('Jobs');
     const [open, setOpen] = useState(false);
 
     return (
@@ -25,7 +26,10 @@ function Job({ job }) {
                         </Badge>
                         <Badge variant='secondary'>{job.location}</Badge>
                         <div style={{ wordBreak: 'break-all' }}>
-                            <ReactMarkdown source={job.how_to_apply} />
+                            <ReactMarkdown
+                                source={job.how_to_apply}
+                                escapeHtml={false}
+                            />
                         </div>
                     </div>
                     <img
@@ -44,7 +48,11 @@ function Job({ job }) {
                 </Card.Text>
                 <Collapse in={open}>
                     <div className='mt-4'>
-                        <ReactMarkdown source={job.description} />
+                        {/* {job.description} */}
+                        <ReactMarkdown
+                            source={job.description}
+                            escapeHtml={false}
+                        />
                     </div>
                 </Collapse>
             </Card.Body>

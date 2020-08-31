@@ -1,8 +1,10 @@
 import React from 'react';
 import { Row, Col, Form, Dropdown, DropdownButton } from 'react-bootstrap';
 
-function SearchForm({ params, onParamChange }) {
-    console.log(params);
+// function SearchForm({ options, params, onParamChange }) {
+function SearchForm({ locations, params, onParamChange }) {
+    // console.log('SearchForm');
+    // console.log(locations);
     return (
         <Form className='mb-4'>
             <Form.Row className='align-items-center'>
@@ -22,13 +24,15 @@ function SearchForm({ params, onParamChange }) {
                     <Form.Label>Location</Form.Label>
                     <Form.Control
                         onChange={onParamChange}
-                        value={params.location}
+                        // value={params.location}
                         name='location'
                         as='select'
                         size='lg'>
                         <option></option>
-                        <option>Remote</option>
-                        <option>Home</option>
+                        {locations !== undefined &&
+                            locations.map((loc) => (
+                                <option value={loc}>{loc}</option>
+                            ))}
                     </Form.Control>
                 </Form.Group>
                 <Form.Group as={Col} lg={2}>
@@ -36,7 +40,7 @@ function SearchForm({ params, onParamChange }) {
                     <Form.Control
                         onChange={onParamChange}
                         value={params.full_time}
-                        name='full_time'
+                        name='type'
                         as='select'
                         size='lg'>
                         <option></option>

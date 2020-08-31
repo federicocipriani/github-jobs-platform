@@ -2,6 +2,7 @@ import React from 'react';
 import { Pagination } from 'react-bootstrap';
 
 function JobPagination({ page, setPage, hasNextPage }) {
+    // console.log('JobPagination');
     function adjustPage(amount) {
         setPage((prevPage) => prevPage + amount);
     }
